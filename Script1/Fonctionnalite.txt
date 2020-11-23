@@ -1,0 +1,29 @@
+2. Fonctionnalités
+On peut identifier les fonctionnalités suivantes; d’autres fonctionnalités peuvent évidement
+être ajoutées.
+
+2.1. Héros
+1) Le héros est placé sur le plateau de jeu et peu s’y déplacer à l’intérieur.
+
+2.2. Labyrinthe
+1) Le labyrinthe est généré par défaut - le héros et les monstres ne peuvent pas
+traverser les murs.
+2) Le labyrinthe est généré à partir d’un fichier.
+3) Le labyrinthe est généré en fonction du niveau sélectionné.
+4) Certains cases du labyrinthe sont spéciales :
+• trésor : si le héros arrive sur la case il a gagné le jeu
+• pièges : quand un personnage arrive sur la case il subit des dégâts
+• magiques : si un personnage arrive sur la case un effet est déclenché
+• passages : un personnage qui arrive sur la case est téléporté à un autre endroit
+
+2.3. Monstres
+1) Des monstres sont placés de manière aléatoire dans le labyrinthe.
+2) Les monstres se déplacent de manière aléatoire.
+3) Les monstres se déplacent de manière intelligente en essayant d’attraper le héros.
+4) Les fantômes sont des monstres qui peuvent traverser les murs.
+
+2.4. Attaques
+1) Le héros est tué au contact d’un monstre.
+2) Le héros peut attaquer les montres avec lequel il est en contact - les deux perdent
+des points de vie.
+3) Le héros peut attaquer les montres sur la case adjacente.
