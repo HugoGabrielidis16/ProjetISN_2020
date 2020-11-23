@@ -1,3 +1,18 @@
-1. 
-2.
-3
+1. Un utilisateur peut deplacer un packman avec les touches du clavier a l'interieur d'un plateau fixe
+ 
+2. Dans le labyrinthe il y a des boules blanches ramassables par le heros
+
+3. Le labyrinthe contient des monstres qui se deplacent de facon aleatoire et enleve un point de vie en cas de contact avec packman
+
+4. Le heros doit ramasser toutes les boules blanches pour remporter la partie
+
+5. Le labyrinthe contient des tresors qui :
+	- Rendent une vie au heros
+	- Permet au heros de manger les monstres pendant une duree de 15s
+
+6. Il y a des cases du labyrinthe qui
+	- Teleportent le heros
+	- Ralentissent les monstres
+
+7. Le heros a trois vies de bases et meurt lorsque le compte atteint 0.
+
