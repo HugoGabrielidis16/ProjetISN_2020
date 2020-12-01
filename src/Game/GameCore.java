@@ -24,20 +24,6 @@ public class GameCore implements Game {
         this.loadGameMap(level);
     }
 
-    private void loadGameMap(int level) throws FileNotFoundException {
-        this.gameMap = new GameCoreMap(level);
-    }
-
-    private void spawnMonster() {
-        int size = this.monsters.size() + 1;
-        this.monsters.put("monster" + Integer.toString(size), new EntityMonster());
-    }
-
-    private void deplaceMonster(){
-        Entity monster = this.monsters.get("monster1");
-        if (this.isEntityAllowedToMove(monster, Cmd.RIGHT)) {monster.setCommand(Cmd.RIGHT);}
-    }
-
     @Override
     public boolean hasMapBeenDrawedYet(){
         return this.hasMapBeenLoaded;
@@ -74,6 +60,29 @@ public class GameCore implements Game {
 
     }
 
+    /**
+     * verifier si le jeu est fini
+     */
+    @Override
+    public boolean isFinished() {
+        // le jeu n'est jamais fini
+        return false;
+    }
+
+    private void loadGameMap(int level) throws FileNotFoundException {
+        this.gameMap = new GameCoreMap(level);
+    }
+
+    private void spawnMonster() {
+        int size = this.monsters.size() + 1;
+        this.monsters.put("monster" + Integer.toString(size), new EntityMonster());
+    }
+
+    private void deplaceMonster(){
+        Entity monster = this.monsters.get("monster1");
+        if (this.isEntityAllowedToMove(monster, Cmd.RIGHT)) {monster.setCommand(Cmd.RIGHT);}
+    }
+
     private boolean isEntityAllowedToMove(Entity entity, Cmd cmd){
         int[] pos = entity.getPosition();
         int xp = pos[0];
@@ -86,14 +95,5 @@ public class GameCore implements Game {
             case LEFT -> xp = xp - 10;
         }
         return this.gameMap.isOnStructure(new int[] {xp, yp});
-    }
-
-    /**
-     * verifier si le jeu est fini
-     */
-    @Override
-    public boolean isFinished() {
-        // le jeu n'est jamais fini
-        return false;
     }
 }
