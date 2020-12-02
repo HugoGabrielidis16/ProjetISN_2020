@@ -14,13 +14,22 @@ public class FileReader {
         this.lecteur = new Scanner(fichier);
     }
 
-    public ArrayList getFileContent(){
+    public ArrayList getStructure(){
 
         ArrayList res = new ArrayList();
         while(lecteur.hasNextInt()){
             int valeur = lecteur.nextInt();
             int valeur2 = lecteur.nextInt();
             res.add(new int[] {valeur, valeur2});
+        }
+        return res;
+    }
+
+    public ArrayList getLevelStructure() {
+        ArrayList res = new ArrayList();
+        while(lecteur.hasNext()){
+            String str = lecteur.nextLine();
+            if (!(str.equals("structurename:(posx,posy):(append_len_x,append_len_y)"))) {res.add(str);}
         }
         return res;
     }

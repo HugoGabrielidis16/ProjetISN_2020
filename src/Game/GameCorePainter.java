@@ -23,7 +23,7 @@ public class GameCorePainter implements GamePainter {
 
         this.gameCore.drawMap(image);
         this.gameCore.drawPlayer(image);
-        this.gameCore.drawMonster(image);
+        this.gameCore.drawMonsterAndObjects(image);
 
     }
 

@@ -1,27 +1,29 @@
 package Game;
 
+import engine.AI;
 import engine.Cmd;
 import engine.Game;
+import engine.HitBox;
 import entity.*;
 
 import java.awt.image.BufferedImage;
 import java.io.FileNotFoundException;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
 
 
 public class GameCore implements Game {
 
     private int level = 1;
     private boolean hasMapBeenLoaded = false;
-    private final static Entity player = new EntityPlayer();
-    private final static Map <String, Entity> monsters = new HashMap<String, Entity>();
+    private ArrayList monsters = new ArrayList();
+    private final Entity player = new EntityPlayer();
     private engine.Map gameMap;
-    private int k = 0;
+    private AI gameAI;
 
 
     public GameCore() throws FileNotFoundException {
         this.loadGameMap(level);
+        this.gameAI = new GameAI(monsters, this.gameMap);
     }
 
     @Override
@@ -41,22 +43,16 @@ public class GameCore implements Game {
     }
 
     @Override
-    public void drawMonster(BufferedImage im){
-        for (Entity i : this.monsters.values()){
-            i.draw(im);
-        }
-    }
+    public void drawMonsterAndObjects(BufferedImage im){ this.gameAI.draw(im); }
 
     @Override
     public void evolve(Cmd commande) {
 
-        if (this.isEntityAllowedToMove(this.player, commande)) {this.player.setCommand(commande);}
-        if(this.k == 0) {
-            this.spawnMonster();
-            this.k = this.k +1;
-        }
-        this.deplaceMonster();
-        System.out.println("Execute "+commande);
+        this.playerCommandHandler(commande);
+        this.gameAI.handleMonster();
+        //System.out.println("Execute "+commande);
+
+        this.entityHitsHandler();
 
     }
 
@@ -65,35 +61,29 @@ public class GameCore implements Game {
      */
     @Override
     public boolean isFinished() {
-        // le jeu n'est jamais fini
+        if(this.player.hasDied()) {return true;}
         return false;
+    }
+
+    private void entityHitsHandler(){
+        for (Object m : this.monsters){
+            Entity monster = (Entity) m;
+            HitBox playerHitBox = this.player.getHitBox();
+
+            if (playerHitBox.hitWithAnotherHitBox(monster.getHitBox())){
+                if (this.player.getInvicibleState()) { monster.killEntity(); }
+                else {this.player.killEntity();}
+            }
+        }
     }
 
     private void loadGameMap(int level) throws FileNotFoundException {
         this.gameMap = new GameCoreMap(level);
     }
 
-    private void spawnMonster() {
-        int size = this.monsters.size() + 1;
-        this.monsters.put("monster" + Integer.toString(size), new EntityMonster());
+    private void playerCommandHandler(Cmd cmd){
+        this.player.setCommand(cmd);
+        if(!this.gameMap.isOnStructure(this.player.getPosition())) {this.player.rollBackCommand(cmd);}
     }
 
-    private void deplaceMonster(){
-        Entity monster = this.monsters.get("monster1");
-        if (this.isEntityAllowedToMove(monster, Cmd.RIGHT)) {monster.setCommand(Cmd.RIGHT);}
-    }
-
-    private boolean isEntityAllowedToMove(Entity entity, Cmd cmd){
-        int[] pos = entity.getPosition();
-        int xp = pos[0];
-        int yp = pos[1];
-
-        switch (cmd) {
-            case DOWN -> yp = yp + 10;
-            case UP -> yp = yp - 10;
-            case RIGHT -> xp = xp + 10;
-            case LEFT -> xp = xp - 10;
-        }
-        return this.gameMap.isOnStructure(new int[] {xp, yp});
-    }
 }

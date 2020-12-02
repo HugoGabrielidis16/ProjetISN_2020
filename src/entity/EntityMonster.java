@@ -8,9 +8,7 @@ public class EntityMonster extends EntityCore {
 
     public EntityMonster(){
         super();
-        this.x = 300;
-        this.y = 300;
-        this.isInvicible = true;
+        this.isInvicible = false;
     }
 
     @Override
@@ -18,6 +16,8 @@ public class EntityMonster extends EntityCore {
         Graphics2D crayon = (Graphics2D) im.getGraphics();
         crayon.setColor(Color.red);
         crayon.fillOval(this.x, this.y,WIDTH,HEIGHT);
+        crayon.setColor(Color.black);
+        crayon.drawOval(this.x, this.y,WIDTH,HEIGHT);
     }
 
 }

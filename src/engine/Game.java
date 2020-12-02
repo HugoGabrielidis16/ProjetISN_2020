@@ -25,7 +25,7 @@ public interface Game {
 
 	public void drawPlayer(BufferedImage im);
 
-	public void drawMonster(BufferedImage im);
+	public void drawMonsterAndObjects(BufferedImage im);
 
 	public void drawMap(BufferedImage im);
 
