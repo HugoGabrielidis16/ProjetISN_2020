@@ -18,13 +18,13 @@ public interface Entity {
 
     public abstract void setCommand(Cmd cmd);
 
-    public void rollBackCommand(Cmd cmd);
+    public abstract void rollBackCommand(Cmd cmd);
 
-    public Cmd getLastDir();
+    public abstract Cmd getLastDir();
 
-    public void killEntity();
+    public abstract void killEntity();
 
-    public boolean hasDied();
+    public abstract boolean hasDied();
 
-    public HitBox getHitBox();
+    public abstract HitBox getHitBox();
 }

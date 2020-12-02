@@ -4,7 +4,11 @@ import engine.AI;
 import engine.Cmd;
 import engine.Game;
 import engine.HitBox;
-import entity.*;
+import entity.Entity;
+import entity.EntityPlayer;
+import object.GameObject;
+import object.ObjectHandler;
+import object.ObjectRedBall;
 
 import java.awt.image.BufferedImage;
 import java.io.FileNotFoundException;
@@ -16,14 +20,17 @@ public class GameCore implements Game {
     private int level = 1;
     private boolean hasMapBeenLoaded = false;
     private ArrayList monsters = new ArrayList();
+    private final ArrayList objects = new ArrayList();
     private final Entity player = new EntityPlayer();
     private engine.Map gameMap;
     private AI gameAI;
+    private ObjectHandler objectHandler;
 
 
     public GameCore() throws FileNotFoundException {
         this.loadGameMap(level);
-        this.gameAI = new GameAI(monsters, this.gameMap);
+        this.gameAI = new GameAI(this.monsters, this.gameMap);
+        this.objectHandler = new ObjectHandler(this.objects, this.gameMap);
     }
 
     @Override
@@ -43,12 +50,17 @@ public class GameCore implements Game {
     }
 
     @Override
-    public void drawMonsterAndObjects(BufferedImage im){ this.gameAI.draw(im); }
+    public void drawMonsterAndObjects(BufferedImage im){
+        this.gameAI.draw(im);
+        this.objectHandler.draw(im);
+    }
 
     @Override
     public void evolve(Cmd commande) {
 
         this.playerCommandHandler(commande);
+
+        this.objectHandler.run();
         this.gameAI.handleMonster();
         //System.out.println("Execute "+commande);
 
@@ -66,13 +78,23 @@ public class GameCore implements Game {
     }
 
     private void entityHitsHandler(){
+        HitBox playerHitBox = this.player.getHitBox();
+
         for (Object m : this.monsters){
             Entity monster = (Entity) m;
-            HitBox playerHitBox = this.player.getHitBox();
-
             if (playerHitBox.hitWithAnotherHitBox(monster.getHitBox())){
                 if (this.player.getInvicibleState()) { monster.killEntity(); }
                 else {this.player.killEntity();}
+            }
+        }
+
+        for (Object o : this.objects){
+            GameObject gameObject = (GameObject) o;
+            if (playerHitBox.hitWithAnotherHitBox(gameObject.getHitBox())){
+                gameObject.killObject();
+                if (ObjectRedBall.class.equals(gameObject.getClass())) {
+                    this.player.changeInvicibleState(true);
+                }
             }
         }
     }

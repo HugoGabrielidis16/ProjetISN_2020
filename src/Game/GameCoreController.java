@@ -41,8 +41,8 @@ public class GameCoreController implements GameController {
      * met a jour les commandes en fonctions des touches appuyees
      */
     public void keyPressed(KeyEvent e) {
-
         // si on appuie sur 'q',commande joueur est gauche
+
         switch (e.getKeyChar()) {
             case 'd', 'D' -> this.commandeEnCours = Cmd.RIGHT;
             case 'q', 'Q' -> this.commandeEnCours = Cmd.LEFT;

@@ -34,11 +34,9 @@ public class GameAI implements AI {
     public void handleMonster(){
         this.checkMonsterLife();
         if(ellapsedTimeMillis == 10000) {this.spawnMonster();}
-
         for (int i = 0 ; i < this.monsters.size() ; i++){
             this.randomMonsterDeplacement((Entity) this.monsters.get(i));
         }
-
         this.ellapsedTimeMillis = this.ellapsedTimeMillis + 100;
     }
 

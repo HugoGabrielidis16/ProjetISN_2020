@@ -8,7 +8,7 @@ public class EntityMonster extends EntityCore {
 
     public EntityMonster(){
         super();
-        this.isInvicible = false;
+        this.isInvicible = true;
     }
 
     @Override

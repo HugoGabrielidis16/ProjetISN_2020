@@ -7,12 +7,18 @@ import java.awt.image.BufferedImage;
 public class EntityPlayer extends EntityCore {
 
     private int life;
-    //private int invicibilityTime = 0;
 
     public EntityPlayer(){
         super();
         this.life = 3;
+        this.isInvicible = false;
+    }
+
+    @Override
+    public void changeInvicibleState(boolean state){
         this.isInvicible = true;
+        this.speedModifier = 2;
+        this.invicibilityTimer();
     }
 
     @Override
