@@ -1,0 +1,10 @@
+Retrospective Sprint 1:
+
+Avancer positive les aspects élémentaires du jeu sont présent, le jeu est deja "jouable", certain bug sont 
+présent mais ils relevente d'un aspect plus avancés du code.
+
+Décision pour le Sprint 2:
+
+- Résolution d'un bug reconnu dans le sprint1 
+- Ajout d'un labyrinthe
+- Ajout d'un Timer 

@@ -1,0 +1,14 @@
+Review Sprint 1:
+
+
+- Heros qui peut se deplacer dans les 4 directions.
+- Generer le labyrinthe à partir d'un fichier.
+- Monstre qui apparaisse toutes les 10s.
+- Boule blanche qui donne un boost de vitesse.
+
+
+Bug rencontrer :
+- Arrêt sans raison du héros sur certaine surface.
+- Le heros n'est pas invincible 3s apres s'être fait toucher.    
+ 
+  
