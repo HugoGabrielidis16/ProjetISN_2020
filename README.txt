@@ -1,10 +1,10 @@
 
+Pour lancer le programme : 
 
+1. Ouvrir un terminal au dossier du jeu (celui qui contient build.xml)
 
-Pour faire fonctionner le jeu:
+2. Taper la commande "ant"
 
-1 - Lancer git et ecrire la commande suivante " git clone https://github.com/Yuuuugo/ProjetISN_2020.git "
+3. Le jeu devrait s'exécuter.
 
-2 - Ouvrir Ecclipse et créer un new java project en prenant en "Use Location" l'endroit où se trouve ProjetISN_2020
-
-3 - Executer le fichier "Main" dans le package "Start"
+DEPENDENCY : Java 13 or higher. 
