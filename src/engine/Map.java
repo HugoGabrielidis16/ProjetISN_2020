@@ -6,6 +6,6 @@ public interface Map {
 
     public abstract void draw(BufferedImage image);
 
-    public abstract boolean isOnStructure(int[] pos);
+    public abstract boolean isOnStructure(HitBox hitBox);
 
 }

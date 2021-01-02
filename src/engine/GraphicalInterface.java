@@ -29,10 +29,11 @@ public class GraphicalInterface  {
 		
 		// attacher le panel contenant l'afficheur du game
 		this.panel= new DrawingPanel(gamePainter);
+		f.setTitle("LES AS DU CODE");
 		f.setContentPane(this.panel);
 		
 		// attacher controller au panel du game
-		this.panel.addKeyListener(gameController);	
+		this.panel.addKeyListener(gameController);
 		
 		f.pack();
 		f.setVisible(true);

@@ -2,6 +2,7 @@ package Game;
 
 import engine.AI;
 import engine.Cmd;
+import engine.HitBox;
 import engine.Map;
 import entity.Entity;
 import entity.EntityMonster;
@@ -15,16 +16,23 @@ public class GameAI implements AI {
     protected final ArrayList monsters;
     protected final Map gameMap ;
     protected int ellapsedTimeMillis = 0;
+    protected boolean monsterStateChanged  =false;
+    protected int timer = 0;
+    protected int currentLevel = 0;
+    protected int[] spawnTimePerLevel = {20000, 15000, 10000, 5000};
 
-    public GameAI(ArrayList monsters, Map gameMap){
+
+    public GameAI(ArrayList monsters, Map gameMap, int level){
         this.monsters = monsters;
         this.gameMap = gameMap;
+        this.currentLevel = level;
     }
 
     @Override
     public void spawnMonster(){
         int number = this.monsters.size();
         Entity monster = new EntityMonster();
+        if(this.monsterStateChanged) {monster.changeInvicibleState(false);}
         monster.setCommand(Cmd.DOWN);
         this.monsters.add(number, monster);
         this.ellapsedTimeMillis = 0;
@@ -33,11 +41,20 @@ public class GameAI implements AI {
     @Override
     public void handleMonster(){
         this.checkMonsterLife();
-        if(ellapsedTimeMillis == 10000) {this.spawnMonster();}
-        for (int i = 0 ; i < this.monsters.size() ; i++){
-            this.randomMonsterDeplacement((Entity) this.monsters.get(i));
+        if(ellapsedTimeMillis == this.spawnTimePerLevel[this.currentLevel - 1]) {this.spawnMonster();}
+        for (Object monster : this.monsters) {
+            this.randomMonsterDeplacement((Entity) monster);
         }
-        this.ellapsedTimeMillis = this.ellapsedTimeMillis + 100;
+        this.ellapsedTimeMillis = this.ellapsedTimeMillis + 50;
+
+        if(this.monsterStateChanged){
+            this.timer = this.timer + 50;
+            if (this.timer == 15000) {
+                this.changeMonstersInvicibleState(true);
+                this.timer= 0;
+            }
+        }
+
     }
 
     private void checkMonsterLife(){
@@ -45,6 +62,16 @@ public class GameAI implements AI {
             Entity monster = (Entity) this.monsters.get(i);
             if(monster.hasDied()) {this.monsters.remove(i);}
         }
+    }
+
+    @Override
+    public void changeMonstersInvicibleState(boolean state){
+        for (Object o : this.monsters){
+            Entity monstre = (Entity) o;
+            ((Entity) o).changeInvicibleState(state);
+        }
+        if (!state) {this.monsterStateChanged = true;}
+        else{this.monsterStateChanged = false;}
     }
 
     @Override
@@ -71,11 +98,12 @@ public class GameAI implements AI {
     }
 
     private ArrayList checkMonsterDirPossibilities(Entity monster){
-        ArrayList dirPossibilities = new ArrayList();
         int[] monsterPos = monster.getPosition();
+        ArrayList dirPossibilities = new ArrayList();
         int x = monsterPos[0];
         int y = monsterPos[1];
         for (Cmd cmd: Cmd.values()){
+
             if (cmd != Cmd.IDLE){
                 switch (cmd) {
                     case DOWN -> y = y + 10;
@@ -83,7 +111,9 @@ public class GameAI implements AI {
                     case RIGHT -> x = x + 10;
                     case LEFT -> x = x - 10;
                 }
-                if(this.gameMap.isOnStructure(new int[] {x, y})) {dirPossibilities.add(cmd);}
+
+                HitBox box = new HitBox(x, y , 40, 40);
+                if(this.gameMap.isOnStructure(box)) {dirPossibilities.add(cmd);}
             }
         }
         return dirPossibilities;

@@ -10,8 +10,8 @@ public class HitBox {
 
     public HitBox(int x, int y,int WIDTH, int HEIGHT){
 
-        int yp = y + HEIGHT;
-        int xp = x + WIDTH;
+        int yp = y + HEIGHT - 5;
+        int xp = x + WIDTH - 5;
 
         this.xPoints = new int[] {x, xp , xp, x, x};
         this.yPoints = new int[] {y, y , yp, yp, y};

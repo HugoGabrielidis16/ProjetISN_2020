@@ -14,7 +14,7 @@ public class EntityMonster extends EntityCore {
     @Override
     public void draw(BufferedImage im) {
         Graphics2D crayon = (Graphics2D) im.getGraphics();
-        crayon.setColor(Color.red);
+        crayon.setColor(this.colorDrawed());
         crayon.fillOval(this.x, this.y,WIDTH,HEIGHT);
         crayon.setColor(Color.black);
         crayon.drawOval(this.x, this.y,WIDTH,HEIGHT);

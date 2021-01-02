@@ -10,4 +10,5 @@ public interface AI {
 
     public void draw(BufferedImage im);
 
+    public void changeMonstersInvicibleState(boolean state);
 }

@@ -3,13 +3,14 @@ package Game;
 import engine.Game;
 import engine.GamePainter;
 
+import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class GameCorePainter implements GamePainter {
 
     //WINDOW SIZE
-    protected static final int WIDTH = 800;
-    protected static final int HEIGHT = 800;
+    protected static final int WIDTH = 400;
+    protected static final int HEIGHT = 400;
 
 
     private final Game gameCore;
@@ -24,13 +25,15 @@ public class GameCorePainter implements GamePainter {
         this.gameCore.drawMap(image);
         this.gameCore.drawPlayer(image);
         this.gameCore.drawMonsterAndObjects(image);
+        this.gameCore.drawScoreAndLives(image);
 
     }
 
     public void initMap(BufferedImage image){
         if (!this.gameCore.hasMapBeenDrawedYet()) {
-            image.getGraphics()
-                    .fillRect(0, 0, WIDTH, HEIGHT);
+            Graphics2D crayon = (Graphics2D) image.getGraphics();
+            crayon.setColor(Color.green);
+            crayon.fillRect(0, 0, WIDTH, HEIGHT);
             this.gameCore.drawMap(image);
         }
     }

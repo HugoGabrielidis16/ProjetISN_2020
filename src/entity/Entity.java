@@ -12,6 +12,8 @@ public interface Entity {
 
     public abstract boolean getInvicibleState();
 
+    public void makePlayerInvicible(int time);
+
     public abstract void draw(BufferedImage im);
 
     public abstract int[] getPosition();
@@ -27,4 +29,6 @@ public interface Entity {
     public abstract boolean hasDied();
 
     public abstract HitBox getHitBox();
+
+    public boolean cantKill ();
 }

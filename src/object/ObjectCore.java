@@ -6,11 +6,11 @@ import java.awt.image.BufferedImage;
 
 public class ObjectCore implements GameObject {
 
-    protected final static int WIDTH = 20;
-    protected final static int HEIGHT = 20;
+    protected final static int WIDTH = 10;
+    protected final static int HEIGHT = 10;
     protected int x;
     protected int y;
-    protected boolean hasDied = false;
+    protected boolean hasBeenEaten = false;
     protected HitBox hitBox;
 
     public ObjectCore(int x, int y){
@@ -26,12 +26,12 @@ public class ObjectCore implements GameObject {
 
     @Override
     public void killObject(){
-        this.hasDied = true;
+        this.hasBeenEaten = true;
     }
 
     @Override
-    public boolean hasDied(){
-        return this.hasDied;
+    public boolean hasBeenEaten(){
+        return this.hasBeenEaten;
     }
 
     @Override

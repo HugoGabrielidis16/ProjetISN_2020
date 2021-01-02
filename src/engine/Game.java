@@ -1,6 +1,7 @@
 package engine;
 
 import java.awt.image.BufferedImage;
+import java.io.FileNotFoundException;
 
 /**
  * @author Horatiu Cirstea, Vincent Thomas
@@ -16,7 +17,7 @@ public interface Game {
 	 * @param userCmd
 	 *            commande utilisateur
 	 */
-	public void evolve(Cmd userCmd);
+	public void evolve(Cmd userCmd) throws FileNotFoundException;
 
 	/**
 	 * @return true si et seulement si le jeu est fini
@@ -31,4 +32,5 @@ public interface Game {
 
 	public boolean hasMapBeenDrawedYet();
 
+	public void drawScoreAndLives(BufferedImage im);
 }

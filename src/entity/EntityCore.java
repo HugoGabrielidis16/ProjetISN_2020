@@ -4,24 +4,27 @@ import engine.Cmd;
 import engine.HitBox;
 import engine.Map;
 
+import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class EntityCore implements Entity {
 
     protected int x;
     protected int y;
-    protected final static int WIDTH = 40;
-    protected final static int HEIGHT = 40;
+    protected final static int WIDTH = 20;
+    protected final static int HEIGHT = 20;
     protected boolean hasDied = false;
     protected HitBox hitBox = new HitBox(this.x, this.y, WIDTH, HEIGHT);
     protected Cmd lastCommand;
     protected boolean isInvicible;
     protected int speedModifier = 1;
     protected int invicibilityTime = 0;
+    protected int time;
+    protected boolean cantKill = false;
 
     EntityCore(){
-        this.x = 380;
-        this.y = 360;
+        this.x = 190;
+        this.y = 170;
     }
 
     @Override
@@ -44,14 +47,19 @@ public class EntityCore implements Entity {
 
         this.hitBox = new HitBox(this.x, this.y, WIDTH, HEIGHT);
         this.lastCommand = cmd;
-        if (this.getClass().equals(EntityPlayer.class)){this.invicibilityTimer();}
+        if (this.getClass().equals(EntityPlayer.class)){this.invicibilityTimer(this.time);}
 
     }
 
-    protected void invicibilityTimer(){
+    @Override
+    public boolean cantKill (){return this.cantKill;}
+
+    protected void invicibilityTimer(int time){
+        this.time = time;
         if (this.isInvicible){
-            if(this.invicibilityTime == 15000){
+            if(this.invicibilityTime == this.time){
                 this.isInvicible = false;
+                this.cantKill = false;
                 this.speedModifier = 1;
             }
             this.invicibilityTime = this.invicibilityTime + 50;
@@ -67,6 +75,11 @@ public class EntityCore implements Entity {
     @Override
     public boolean getInvicibleState(){
         return this.isInvicible;
+    }
+
+    @Override
+    public void makePlayerInvicible(int time) {
+
     }
 
     @Override
@@ -91,6 +104,13 @@ public class EntityCore implements Entity {
     @Override
     public boolean hasDied(){
         return this.hasDied;
+    }
+
+    protected Color colorDrawed(){
+        Color col;
+        if(this.isInvicible) {col = Color.red;}
+        else{col = Color.white;}
+        return col;
     }
 
     @Override

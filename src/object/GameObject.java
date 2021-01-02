@@ -13,7 +13,7 @@ public interface GameObject {
 
     public void killObject();
 
-    public boolean hasDied();
+    public boolean hasBeenEaten();
 }
 
 

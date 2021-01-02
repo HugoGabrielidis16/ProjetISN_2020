@@ -1,6 +1,7 @@
 package Game;
 
 import engine.FileReader;
+import engine.HitBox;
 import engine.Map;
 
 import java.awt.*;
@@ -93,25 +94,27 @@ public class GameCoreMap implements Map {
         for (int i = 0 ; i < list.size() ; i++){
             //ON MODIFIE LECHELLE RAMENEE AU PIXEL
             //WITDH = HEIGHT / 40
-            res[i] = ((int) list.get(i) + pos ) * 40 ;
+            res[i] = ((int) list.get(i) + pos ) * 20 ;
         }
         return res;
     }
 
     @Override
-    public boolean isOnStructure(int[] pos){
+    public boolean isOnStructure(HitBox hitBox) {
         //HITBOX POINT
-        int x = pos[0];
+        int x = hitBox.getX();
         //35 PEUT CHANGER SI ON CHANGE LA TAILLE DU PERSO
-        int xp = x + 35;
-        int y = pos[1];
-        int yp = y + 35;
+        int xp = hitBox.getXp();
+        int y = hitBox.getY();
+        int yp = hitBox.getYp();
 
-        if (0 <= y && y <= 760 && 0 <= x && x <= 760)
+        if (0 <= y && y <= 380 && 0 <= x && x <= 380)
         {
-            for(int i = 0 ; i < this.polygonsStructure.size() ; i++) {
-                Polygon poly = (Polygon) this.polygonsStructure.get(i);
-                if (poly.contains(x, y) || poly.contains(xp, yp) || poly.contains(xp, y) || poly.contains(x, yp)) {return false;}
+            for (Object o : this.polygonsStructure) {
+                Polygon poly = (Polygon) o;
+                if (poly.contains(x, y) || poly.contains(xp, yp) || poly.contains(xp, y) || poly.contains(x, yp)) {
+                    return false;
+                }
             }
         }
         else {return false;}
@@ -130,10 +133,10 @@ public class GameCoreMap implements Map {
             crayon.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             crayon.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
 
-            crayon.setColor(Color.gray);
+            crayon.setColor(Color.black);
             crayon.fillPolygon(poly);
             crayon.setStroke(stroke);
-            crayon.setColor(Color.black);
+            crayon.setColor(Color.white);
             crayon.drawPolygon(poly);
 
         }
