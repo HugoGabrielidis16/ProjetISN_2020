@@ -1,5 +1,7 @@
 package entity;
 
+import engine.HitBox;
+
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -13,6 +15,11 @@ public class EntityPlayer extends EntityCore {
         super();
         this.life = 3;
         this.isInvicible = false;
+    }
+
+    public void setPosition(int x, int y){
+        this.x = x;
+        this.y = y;
     }
 
     @Override
@@ -72,5 +79,7 @@ public class EntityPlayer extends EntityCore {
         crayon.fillOval(this.x, this.y,WIDTH,HEIGHT);
         crayon.setColor(Color.black);
         crayon.drawOval(this.x, this.y,WIDTH,HEIGHT);
+
+        //HitBox.drawHitBox(this.hitBox, im);
     }
 }

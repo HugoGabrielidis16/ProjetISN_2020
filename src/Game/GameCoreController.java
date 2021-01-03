@@ -52,6 +52,19 @@ public class GameCoreController implements GameController {
 
     }
 
+
+    public static int [] move(Cmd cmd){
+        int x=0;
+        int y=0;
+        switch (cmd) {
+            case DOWN -> y =y + 10;
+            case UP -> y = y - 10;
+            case RIGHT -> x = x + 10;
+            case LEFT -> x = x - 10;
+        }
+        return new int[]{x,y};
+    }
+
     @Override
     /**
      * met a jour les commandes quand le joueur relache une touche

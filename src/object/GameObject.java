@@ -14,6 +14,8 @@ public interface GameObject {
     public void killObject();
 
     public boolean hasBeenEaten();
+
+    public int getPropertyCode();
 }
 
 

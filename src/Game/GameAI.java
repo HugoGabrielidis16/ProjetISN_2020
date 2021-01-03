@@ -105,14 +105,10 @@ public class GameAI implements AI {
         for (Cmd cmd: Cmd.values()){
 
             if (cmd != Cmd.IDLE){
-                switch (cmd) {
-                    case DOWN -> y = y + 10;
-                    case UP -> y = y - 10;
-                    case RIGHT -> x = x + 10;
-                    case LEFT -> x = x - 10;
-                }
 
-                HitBox box = new HitBox(x, y , 40, 40);
+                int[] tab = GameCoreController.move(cmd);
+
+                HitBox box = new HitBox(x + tab[0], y + tab[1], 20, 20);
                 if(this.gameMap.isOnStructure(box)) {dirPossibilities.add(cmd);}
             }
         }

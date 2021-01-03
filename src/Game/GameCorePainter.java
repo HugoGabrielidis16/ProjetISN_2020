@@ -22,7 +22,6 @@ public class GameCorePainter implements GamePainter {
     @Override
     public void draw(BufferedImage image) {
 
-        this.gameCore.drawMap(image);
         this.gameCore.drawPlayer(image);
         this.gameCore.drawMonsterAndObjects(image);
         this.gameCore.drawScoreAndLives(image);

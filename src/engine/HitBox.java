@@ -1,6 +1,7 @@
 package engine;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 public class HitBox {
 
@@ -10,13 +11,17 @@ public class HitBox {
 
     public HitBox(int x, int y,int WIDTH, int HEIGHT){
 
-        int yp = y + HEIGHT - 5;
-        int xp = x + WIDTH - 5;
+        int yp = y + HEIGHT ;
+        int xp = x + WIDTH ;
 
         this.xPoints = new int[] {x, xp , xp, x, x};
         this.yPoints = new int[] {y, y , yp, yp, y};
 
-        this.poly = new Polygon(this.xPoints, this.yPoints,xPoints.length);
+        this.poly = new Polygon(this.xPoints, this.yPoints, xPoints.length);
+    }
+
+    public Polygon getHitBoxPolygon(){
+        return this.poly;
     }
 
     public boolean hitWithAnotherHitBox(HitBox hit){
@@ -39,7 +44,13 @@ public class HitBox {
     public int getY(){
         return this.yPoints[0];
     }
-    public int getYp(){
-        return this.yPoints[3];
+    public int getYp(){ return this.yPoints[3]; }
+
+    public static void drawHitBox(HitBox hit, BufferedImage im){
+
+            Graphics2D crayon = (Graphics2D) im.getGraphics();
+            crayon.setColor(Color.black);
+            crayon.fillPolygon(hit.getHitBoxPolygon());
+
     }
 }

@@ -1,9 +1,6 @@
 package Game;
 
-import engine.AI;
-import engine.Cmd;
-import engine.Game;
-import engine.HitBox;
+import engine.*;
 import entity.Entity;
 import entity.EntityPlayer;
 import object.*;
@@ -24,7 +21,7 @@ public class GameCore implements Game {
     private engine.Map gameMap;
     private AI gameAI;
     private ObjectHandler objectHandler;
-    private int score = 0;
+    private int score = -300;
 
 
     public GameCore() throws FileNotFoundException {
@@ -56,6 +53,7 @@ public class GameCore implements Game {
     @Override
     public void evolve(Cmd commande) throws FileNotFoundException {
 
+        //this.score = this.score + 1;
         this.playerCommandHandler(commande);
 
         this.objectHandler.run();
@@ -67,8 +65,6 @@ public class GameCore implements Game {
         if(this.objectHandler.hasWhiteBallsBeenEaten()){
             this.changeGameLevel();
         }
-
-        this.score = this.score + 1;
 
     }
 
@@ -106,11 +102,12 @@ public class GameCore implements Game {
                     this.score = this.score + 100;
                     gameObject.killObject();
                 }
-                if (ObjectWhiteBall.class.equals(gameObject.getClass())) {
+                else if (ObjectWhiteBall.class.equals(gameObject.getClass())) {
                     this.score = this.score + 50;
+                    this.objectHandler.decrementWhiteBallNumber();
                     gameObject.killObject();
                 }
-                if (ObjectYellowBall.class.equals(gameObject.getClass())) {
+                else if (ObjectYellowBall.class.equals(gameObject.getClass())) {
                     if (!(this.player.getLife() == 3)){
                         this.player.addLife();
                         gameObject.killObject();
@@ -130,13 +127,14 @@ public class GameCore implements Game {
 
     private void changeGameLevel() throws FileNotFoundException {
         this.level = this.level + 1;
+        this.hasMapBeenLoaded = false;
         this.loadGameLevel(this.level);
     }
 
     private void clearEntities(){
         this.monsters = new ArrayList();
         this.objects = new ArrayList();
-        this.player = new EntityPlayer();
+        this.player.setPosition (190, 170);
     }
 
     private void loadGameLevel(int level) throws FileNotFoundException {
@@ -151,8 +149,9 @@ public class GameCore implements Game {
     }
 
     private void playerCommandHandler(Cmd cmd){
-        this.player.setCommand(cmd);
-        if(!this.gameMap.isOnStructure(this.player.getHitBox())) {this.player.rollBackCommand(cmd);}
+        int [] playerPosition =this.player.getPosition();
+        int [] tab= GameCoreController.move(cmd);
+        if(this.gameMap.isOnStructure(new HitBox(playerPosition[0] + tab[0],playerPosition[1] + tab[1],20,20))) {this.player.setCommand(cmd);}
     }
 
 }

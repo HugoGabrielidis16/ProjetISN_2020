@@ -12,12 +12,16 @@ public class ObjectCore implements GameObject {
     protected int y;
     protected boolean hasBeenEaten = false;
     protected HitBox hitBox;
+    protected int propertyCode = 0;
 
     public ObjectCore(int x, int y){
         this.x = x;
         this.y = y;
         this.hitBox = new HitBox(this.x, this.y, WIDTH, HEIGHT);
     }
+
+    @Override
+    public int getPropertyCode(){return this.propertyCode;}
 
     @Override
     public HitBox getHitBox(){

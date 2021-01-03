@@ -1,5 +1,6 @@
 package entity;
 
+import Game.GameCoreController;
 import engine.Cmd;
 import engine.HitBox;
 import engine.Map;
@@ -37,13 +38,9 @@ public class EntityCore implements Entity {
 
     @Override
     public void setCommand(Cmd cmd) {
-
-        switch (cmd) {
-            case DOWN -> this.y = this.y + 10 * this.speedModifier;
-            case UP -> this.y = this.y - 10 * this.speedModifier;
-            case RIGHT -> this.x = this.x + 10 * this.speedModifier;
-            case LEFT -> this.x = this.x - 10 * this.speedModifier;
-        }
+        int[] tab= GameCoreController.move(cmd);
+        this.x= this.x+ tab[0];
+        this.y=this.y+tab[1];
 
         this.hitBox = new HitBox(this.x, this.y, WIDTH, HEIGHT);
         this.lastCommand = cmd;
@@ -111,17 +108,5 @@ public class EntityCore implements Entity {
         if(this.isInvicible) {col = Color.red;}
         else{col = Color.white;}
         return col;
-    }
-
-    @Override
-    public void rollBackCommand(Cmd cmd){
-        switch (cmd) {
-            case DOWN -> this.y = this.y - 10*this.speedModifier;
-            case UP -> this.y = this.y + 10*this.speedModifier;
-            case RIGHT -> this.x = this.x - 10*this.speedModifier;
-            case LEFT -> this.x = this.x + 10*this.speedModifier;
-        }
-
-        this.lastCommand = null;
     }
 }

@@ -20,8 +20,6 @@ public interface Entity {
 
     public abstract void setCommand(Cmd cmd);
 
-    public abstract void rollBackCommand(Cmd cmd);
-
     public abstract Cmd getLastDir();
 
     public abstract void killEntity();

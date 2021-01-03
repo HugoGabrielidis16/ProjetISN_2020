@@ -103,10 +103,9 @@ public class GameCoreMap implements Map {
     public boolean isOnStructure(HitBox hitBox) {
         //HITBOX POINT
         int x = hitBox.getX();
-        //35 PEUT CHANGER SI ON CHANGE LA TAILLE DU PERSO
-        int xp = hitBox.getXp();
+        int xp = hitBox.getXp() - 5;
         int y = hitBox.getY();
-        int yp = hitBox.getYp();
+        int yp = hitBox.getYp() - 5;
 
         if (0 <= y && y <= 380 && 0 <= x && x <= 380)
         {
@@ -118,6 +117,7 @@ public class GameCoreMap implements Map {
             }
         }
         else {return false;}
+
         return true;
     }
 

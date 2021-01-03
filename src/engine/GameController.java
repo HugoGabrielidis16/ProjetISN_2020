@@ -18,4 +18,7 @@ public interface GameController extends KeyListener {
 	 */
 	public Cmd getCommand();
 
+
+
+
 }

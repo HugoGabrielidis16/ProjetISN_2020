@@ -7,6 +7,7 @@ public class ObjectYellowBall extends ObjectCore {
 
     public ObjectYellowBall(int x, int y) {
         super(x, y);
+        this.propertyCode = 2;
     }
 
     @Override

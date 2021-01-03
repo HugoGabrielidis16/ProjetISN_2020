@@ -15,7 +15,7 @@ public class ObjectHandler {
     private final static int[] yellowBallNumberPerLevel = {3, 2, 1, 0};
     private int redBallSpawned = 0;
     private int yellowBallSpawned = 0;
-    private int whiteBallSpawned = 1;
+    private int whiteBallSpawned = 0;
     protected final ArrayList objects;
     protected final Map gameMap ;
 
@@ -26,62 +26,57 @@ public class ObjectHandler {
     }
 
     public boolean hasWhiteBallsBeenEaten(){
-        if (this.whiteBallSpawned == 0){return true;}
-        return false;
+        return this.whiteBallSpawned == 0;
     }
 
     private void randomObjectSpawner(int level) {
         ArrayList coord = this.generateObjectCoordinates();
         boolean tooMuchRedBall = false;
-        boolean tooMuchyellowBall = false;
+        boolean tooMuchYellowBall = false;
 
         for (Object o : coord){
             int[] pos = (int[]) o;
 
-            int choice = 0;
-            boolean tantQue = true;
-
-            while(tantQue){
-                choice = this.randomizer();
-
-                if (choice < 1000) {choice = 0;}
-                else if (choice >= 1000 && choice < 2000) {choice = 1;}
-                else if (choice >= 2000) {choice = 2;}
-
-                if(choice == 1 ) {tantQue =false;}
-
-                if ((choice == 0 && !tooMuchRedBall)){tantQue = false;}
-                else if ((choice == 2 && !tooMuchyellowBall)){tantQue = false;}
-            }
+            int choice = randomizer(tooMuchYellowBall, tooMuchRedBall);
 
             switch (choice) {
-                case 2 -> {
+                case 0 -> {
                     this.spawnObject("yellowBall", pos[0], pos[1]);
-                    this.yellowBallSpawned = this.yellowBallSpawned + 1;
                     if (this.yellowBallSpawned == yellowBallNumberPerLevel[level - 1]) {
-                        tooMuchyellowBall = true;
+                        tooMuchYellowBall = true;
                     }
                 }
-                case 0 -> {
+                case 1 -> {
                     this.spawnObject("redBall", pos[0], pos[1]);
-                    this.redBallSpawned = this.redBallSpawned + 1;
                     if (this.redBallSpawned == redBallNumberPerLevel[level - 1]) {
                         tooMuchRedBall = true;
                     }
                 }
-                case 1 -> {
+                case 2 -> {
                     this.spawnObject("whiteBall", pos[0], pos[1]);
-                    this.whiteBallSpawned = this.whiteBallSpawned + 1;
                 }
                 }
             }
         }
 
-        private int randomizer(){
+        private int randomizer(boolean y, boolean r){
             Random random = new Random();
-            int choice = random.nextInt(15000);
-            int choice2 = random.nextInt(15000);
-            choice = (choice2 + choice) / 10;
+            int choice = 0;
+            boolean tantQue = true;
+
+            while (tantQue){
+                choice = random.nextInt(3);
+                if (choice==0 && !y){
+                    tantQue=false;
+                }
+                else if (choice==1 && !r){
+                    tantQue=false;
+                }
+                else if (choice==2){
+                    tantQue=false;
+                }
+            }
+
             return choice;
         }
 
@@ -100,15 +95,16 @@ public class ObjectHandler {
         return coordinates;
     }
 
+    public void decrementWhiteBallNumber(){
+        this.whiteBallSpawned = this.whiteBallSpawned - 1;
+    }
+
     private void checkObjectLife() {
         for (int i = 0; i < this.objects.size(); i++) {
             GameObject o = (GameObject) this.objects.get(i);
             if (o.hasBeenEaten()) {
-                this.objects.remove(i);
 
-                if (ObjectWhiteBall.class.equals(o.getClass())) {
-                    this.whiteBallSpawned = this.whiteBallSpawned - 1;
-                }
+                this.objects.remove(i);
             }
         }
     }
@@ -117,18 +113,25 @@ public class ObjectHandler {
 
         int number = this.objects.size();
 
-        switch (str){
-            case "yellowBall":
+        switch (str) {
+            case "yellowBall" -> {
                 this.objects.add(number, new ObjectYellowBall(x, y));
-            case "redBall":
+                this.yellowBallSpawned = this.yellowBallSpawned + 1;
+            }
+            case "redBall" -> {
                 this.objects.add(number, new ObjectRedBall(x, y));
-            case "whiteBall":
+                this.redBallSpawned = this.redBallSpawned + 1;
+            }
+            case "whiteBall" -> {
                 this.objects.add(number, new ObjectWhiteBall(x, y));
+                this.whiteBallSpawned = this.whiteBallSpawned + 1;
+            }
         }
     }
 
     public void run(){
         this.checkObjectLife();
+        System.out.println(this.whiteBallSpawned);
     }
 
     public void draw (BufferedImage im) {
