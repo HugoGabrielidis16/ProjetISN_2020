@@ -19,7 +19,7 @@ public class GameAI implements AI {
     protected boolean monsterStateChanged  =false;
     protected int timer = 0;
     protected int currentLevel = 0;
-    protected int[] spawnTimePerLevel = {20000, 15000, 10000, 5000};
+    protected int[] spawnTimePerLevel = {10000, 8000, 5000, 5000};
 
 
     public GameAI(ArrayList monsters, Map gameMap, int level){
@@ -83,6 +83,7 @@ public class GameAI implements AI {
     }
 
     private void randomMonsterDeplacement(Entity monster){
+        System.out.println(this.checkMonsterDirPossibilities(monster));
         monster.setCommand(this.chooseDir(this.checkMonsterDirPossibilities(monster), monster.getLastDir()));
     }
 
@@ -104,7 +105,7 @@ public class GameAI implements AI {
         int y = monsterPos[1];
         for (Cmd cmd: Cmd.values()){
 
-            if (cmd != Cmd.IDLE){
+            if (cmd != Cmd.IDLE && cmd != Cmd.SPACE){
 
                 int[] tab = GameCoreController.move(cmd);
 

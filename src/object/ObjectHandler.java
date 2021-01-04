@@ -15,7 +15,7 @@ public class ObjectHandler {
     private final static int[] yellowBallNumberPerLevel = {3, 2, 1, 0};
     private int redBallSpawned = 0;
     private int yellowBallSpawned = 0;
-    private int whiteBallSpawned = 0;
+    private int whiteBallSpawned = 20;
     protected final ArrayList objects;
     protected final Map gameMap ;
 
@@ -57,7 +57,12 @@ public class ObjectHandler {
                 }
                 }
             }
+
+        //this.whiteBallSpawned = coord.size() - (redBallNumberPerLevel[level - 1] + yellowBallNumberPerLevel[level - 1] );
+
         }
+
+
 
         private int randomizer(boolean y, boolean r){
             Random random = new Random();
@@ -124,14 +129,12 @@ public class ObjectHandler {
             }
             case "whiteBall" -> {
                 this.objects.add(number, new ObjectWhiteBall(x, y));
-                this.whiteBallSpawned = this.whiteBallSpawned + 1;
             }
         }
     }
 
     public void run(){
         this.checkObjectLife();
-        System.out.println(this.whiteBallSpawned);
     }
 
     public void draw (BufferedImage im) {

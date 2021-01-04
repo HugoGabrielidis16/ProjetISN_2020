@@ -48,6 +48,7 @@ public class GameCoreController implements GameController {
             case 'q', 'Q' -> this.commandeEnCours = Cmd.LEFT;
             case 's', 'S' -> this.commandeEnCours = Cmd.DOWN;
             case 'z', 'Z' -> this.commandeEnCours = Cmd.UP;
+            case ' ' -> this.commandeEnCours = Cmd.SPACE;
         }
 
     }

@@ -22,6 +22,8 @@ public class GameCore implements Game {
     private AI gameAI;
     private ObjectHandler objectHandler;
     private int score = -300;
+    private int ellapsedTime = 0;
+    private boolean levelScreen = true;
 
 
     public GameCore() throws FileNotFoundException {
@@ -53,19 +55,37 @@ public class GameCore implements Game {
     @Override
     public void evolve(Cmd commande) throws FileNotFoundException {
 
-        //this.score = this.score + 1;
-        this.playerCommandHandler(commande);
+        if (!this.levelScreen){
+            this.playerCommandHandler(commande);
 
-        this.objectHandler.run();
-        this.gameAI.handleMonster();
-        //System.out.println("Execute "+commande);
+            this.objectHandler.run();
+            this.gameAI.handleMonster();
+            //System.out.println("Execute "+commande);
 
-        this.entityHitsHandler();
+            this.entityHitsHandler();
 
-        if(this.objectHandler.hasWhiteBallsBeenEaten()){
-            this.changeGameLevel();
+            if(this.objectHandler.hasWhiteBallsBeenEaten()){
+                this.changeGameLevel();
+                this.levelScreen = true;
+
+                this.ellapsedTime = this.ellapsedTime + 50;
+            }
+
+        }
+        else if (commande == Cmd.SPACE && this.levelScreen) {
+            this.levelScreen = false;
         }
 
+
+    }
+
+    private void levelScreenFlip (){
+        this.levelScreen = true;
+    }
+
+    @Override
+    public boolean isLevelScreenInGoing(){
+        return this.levelScreen;
     }
 
     /**
@@ -131,6 +151,22 @@ public class GameCore implements Game {
         this.loadGameLevel(this.level);
     }
 
+    @Override
+    public int getScore(){
+        return this.score;
+    }
+
+    @Override
+    public int getBonusScore(){
+        return this.calculScore();
+    }
+
+    @Override
+    public int getLevel(){
+        return this.level;
+    }
+
+
     private void clearEntities(){
         this.monsters = new ArrayList();
         this.objects = new ArrayList();
@@ -138,6 +174,9 @@ public class GameCore implements Game {
     }
 
     private void loadGameLevel(int level) throws FileNotFoundException {
+        if(this.level != 1) {this.score = this.score + calculScore();}
+        this.ellapsedTime =   0;
+        
         this.clearEntities();
         this.loadGameMap(level);
         this.gameAI = new GameAI(this.monsters, this.gameMap, this.level);
@@ -146,6 +185,13 @@ public class GameCore implements Game {
 
     private void loadGameMap(int level) throws FileNotFoundException {
         this.gameMap = new GameCoreMap(level);
+    }
+
+    private int calculScore (){
+        String resultat = String.valueOf(this.score * (1 - 1/(1 + this.ellapsedTime*0.001)));
+        String delims = "[.]+";
+        String[] tokens = resultat.split(delims);
+        return Integer.parseInt(tokens[0]);
     }
 
     private void playerCommandHandler(Cmd cmd){

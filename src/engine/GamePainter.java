@@ -25,5 +25,7 @@ public interface GamePainter {
 	public abstract int getHeight();
 
 	public abstract void initMap(BufferedImage image);
+
+	public void levelChangePaint(BufferedImage im, int currentLevel, int scoreBonus);
 	
 }

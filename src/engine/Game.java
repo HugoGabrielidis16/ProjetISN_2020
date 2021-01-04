@@ -33,4 +33,12 @@ public interface Game {
 	public boolean hasMapBeenDrawedYet();
 
 	public void drawScoreAndLives(BufferedImage im);
+
+	public int getLevel();
+
+	public int getScore();
+
+	public int getBonusScore();
+
+	public boolean isLevelScreenInGoing();
 }
