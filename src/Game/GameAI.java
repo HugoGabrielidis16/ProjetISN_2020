@@ -83,7 +83,6 @@ public class GameAI implements AI {
     }
 
     private void randomMonsterDeplacement(Entity monster){
-        System.out.println(this.checkMonsterDirPossibilities(monster));
         monster.setCommand(this.chooseDir(this.checkMonsterDirPossibilities(monster), monster.getLastDir()));
     }
 

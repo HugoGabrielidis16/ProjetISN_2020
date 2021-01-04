@@ -116,7 +116,7 @@ public class GameCore implements Game {
         for (Object o : this.objects){
             GameObject gameObject = (GameObject) o;
             if (playerHitBox.hitWithAnotherHitBox(gameObject.getHitBox())){
-                if (ObjectRedBall.class.equals(gameObject.getClass())) {
+                if (ObjectRedBall.class.equals(gameObject.getClass()) && !this.player.getInvicibleState()) {
                     this.player.makePlayerInvicible(15000);
                     this.gameAI.changeMonstersInvicibleState(false);
                     this.score = this.score + 100;

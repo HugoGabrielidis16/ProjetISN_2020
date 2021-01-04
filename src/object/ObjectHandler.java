@@ -15,7 +15,7 @@ public class ObjectHandler {
     private final static int[] yellowBallNumberPerLevel = {3, 2, 1, 0};
     private int redBallSpawned = 0;
     private int yellowBallSpawned = 0;
-    private int whiteBallSpawned = 20;
+    private int whiteBallSpawned = 0;
     protected final ArrayList objects;
     protected final Map gameMap ;
 
@@ -56,25 +56,26 @@ public class ObjectHandler {
                     this.spawnObject("whiteBall", pos[0], pos[1]);
                 }
                 }
+
+
             }
-
-        //this.whiteBallSpawned = coord.size() - (redBallNumberPerLevel[level - 1] + yellowBallNumberPerLevel[level - 1] );
-
+        this.findWhiteBallNumber();
         }
 
 
 
         private int randomizer(boolean y, boolean r){
             Random random = new Random();
+            int lala = random.nextInt(250);
             int choice = 0;
             boolean tantQue = true;
 
             while (tantQue){
                 choice = random.nextInt(3);
-                if (choice==0 && !y){
+                if (choice==0 && !y && lala <20){
                     tantQue=false;
                 }
-                else if (choice==1 && !r){
+                else if (choice==1 && !r && lala <20){
                     tantQue=false;
                 }
                 else if (choice==2){
@@ -135,6 +136,16 @@ public class ObjectHandler {
 
     public void run(){
         this.checkObjectLife();
+    }
+
+    private void findWhiteBallNumber (){
+        int res = 0;
+        for (Object o : this.objects){
+            if(o.getClass().equals(ObjectWhiteBall.class)){
+                res = res + 1;
+            }
+        }
+        this.whiteBallSpawned = res;
     }
 
     public void draw (BufferedImage im) {
